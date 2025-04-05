@@ -61,12 +61,6 @@ build CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/main.cpp.obj: CXX_CO
   OBJECT_DIR = CMakeFiles\COP_Cplusplus_FifthLaboratory.dir
   OBJECT_FILE_DIR = CMakeFiles\COP_Cplusplus_FifthLaboratory.dir\examples
 
-build CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/temp.cpp.obj: CXX_COMPILER__COP_Cplusplus_FifthLaboratory_unscanned_Debug C$:/Users/011ko/CLionProjects/COP_Cplusplus_FifthLaboratory/examples/temp.cpp || cmake_object_order_depends_target_COP_Cplusplus_FifthLaboratory
-  DEP_FILE = CMakeFiles\COP_Cplusplus_FifthLaboratory.dir\examples\temp.cpp.obj.d
-  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\COP_Cplusplus_FifthLaboratory.dir
-  OBJECT_FILE_DIR = CMakeFiles\COP_Cplusplus_FifthLaboratory.dir\examples
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target COP_Cplusplus_FifthLaboratory
@@ -75,7 +69,7 @@ build CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/temp.cpp.obj: CXX_CO
 #############################################
 # Link the executable COP_Cplusplus_FifthLaboratory.exe
 
-build COP_Cplusplus_FifthLaboratory.exe: CXX_EXECUTABLE_LINKER__COP_Cplusplus_FifthLaboratory_Debug CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/interfaces.cpp.obj CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/main.cpp.obj CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/temp.cpp.obj
+build COP_Cplusplus_FifthLaboratory.exe: CXX_EXECUTABLE_LINKER__COP_Cplusplus_FifthLaboratory_Debug CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/interfaces.cpp.obj CMakeFiles/COP_Cplusplus_FifthLaboratory.dir/examples/main.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\COP_Cplusplus_FifthLaboratory.dir
