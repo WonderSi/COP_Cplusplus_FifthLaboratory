@@ -26,12 +26,26 @@ const IID IID_IUnknown1 =
         {0x32bb8323, 0xb41b, 0x11cf,
          {0xa6, 0xbb, 0x0, 0x80, 0xc7, 0xb2, 0xd6, 0x82}};
 
+CA::CA() : m_cRef(0) {
+    cout << "CA: создан" << endl;
+}
+
+CA::~CA() {
+    cout << "CA: уничтожен" << endl;
+}
+
 ULONG __stdcall CA::AddRef() {
-    return 0;
+    cout << "CA: AddRef = " << m_cRef + 1 << endl;
+    return ++m_cRef;
 };
 
 ULONG __stdcall CA::Release() {
-    return 0;
+    cout << "CA: Release = " << m_cRef - 1 << endl;
+    if (--m_cRef == 0) {
+        delete this;
+        return 0;
+    }
+    return m_cRef;
 };
 
 HRESULT __stdcall CA::QueryInterface(const IID &iid, void **ppv) {
@@ -75,7 +89,12 @@ BOOL SameComponents(IX* pIX, IY* pIY) {
     pIY->QueryInterface(IID_IUnknown1, (void**)&pI2);
 
     // Сравнить полученные указатели
-    return pI1 == pI2;
+    BOOL result = (pI1 == pI2);
+
+    if (pI1) pI1->Release();  // Освобождаем
+    if (pI2) pI2->Release();  // Освобождаем
+
+    return result;
 }
 
 // Новая функция f
@@ -83,6 +102,8 @@ void f(IX* pIX) {
     IX* pIX2 = NULL;
     HRESULT hr = pIX->QueryInterface(IID_IX, (void**)&pIX2);
     assert(SUCCEEDED(hr)); // Запрос должен быть успешным
+
+    if (pIX2) pIX2->Release();  // Освобождаем
 }
 
 void f2(IX* pIX) {
@@ -100,6 +121,9 @@ void f2(IX* pIX) {
         // QueryInterface должна отработать успешно
         assert(SUCCEEDED(hr));
     }
+
+    if (pIX2) pIX2->Release();  // Освобождаем
+    if (pIY) pIY->Release();    // Освобождаем
 }
 
 // Реализация функции f3
@@ -123,5 +147,9 @@ void f3(IX* pIX) {
 
             assert(SUCCEEDED(hr)); // Это должно работать
         }
+
+        if (pIZ) pIZ->Release();  // Освобождаем
     }
+
+    if (pIY) pIY->Release();  // Освобождаем
 }

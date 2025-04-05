@@ -29,13 +29,25 @@ interface IZ : IUnknown {
 
 // Компонент
 class CA : public IX, public IY {
-    // Реализация методов класса IUnknown
-    virtual ULONG __stdcall AddRef();
-    virtual ULONG __stdcall Release();
-    virtual HRESULT __stdcall QueryInterface(const IID &iid, void **ppv);
+public:
+    // Конструктор
+    CA();
 
-    virtual void __stdcall Fx();
-    virtual void __stdcall Fy();
+    // Деструктор
+    ~CA();
+
+    // Реализация методов класса IUnknown
+    virtual ULONG __stdcall AddRef() override;
+    virtual ULONG __stdcall Release() override;
+
+    virtual HRESULT __stdcall QueryInterface(const IID &iid, void **ppv) override;
+
+    virtual void __stdcall Fx() override;
+    virtual void __stdcall Fy() override;
+
+private:
+    // Счетчик ссылок
+    long m_cRef;
 };
 
 // Функция создания компонента

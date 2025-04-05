@@ -24,6 +24,22 @@ int main () {
     if (SUCCEEDED(hr)) {
         cout << "Клиент: указатель на IX успешно получен" << endl;
         pIX->Fx(); // Использовать интерфейс IX
+
+        cout << "\nКлиент: вызвать функцию f(IX*)" << endl;
+        f(pIX); // Вызов функции f
+
+        cout << "\nКлиент: вызвать функцию f2(IX*)" << endl;
+        f2(pIX); // Вызов функции f2
+
+        cout << "\nКлиент: вызвать функцию f3(IX*)" << endl;
+        f3(pIX); // Вызов функции f3
+
+        IX* pIX2 = pIX; // Создать копию pIX
+        pIX2->AddRef(); // Увеличить счетчик ссылок
+        pIX2->Fx();     // Что-то делать при помощи pIX2
+        pIX2->Release();// Завершить работу с pIX2
+
+        pIX->Release(); // Завершить работу с pIX
     };
 
     cout << "\nКлиент: получить указатель на IY" << endl;
@@ -32,6 +48,7 @@ int main () {
     if (SUCCEEDED(hr)) {
         cout << "Клиент: указатель на IY успешно получен" << endl;
         pIY->Fy(); // Использовать интерфейс IY
+        pIY->Release(); // Завершить работу с pIY
     };
 
     cout << "\nКлиент: получить неподдерживаемый интерфейс" << endl;
@@ -39,6 +56,7 @@ int main () {
     hr = pIUnknown->QueryInterface(IID_IZ, (void**)&pIZ);
     if(SUCCEEDED(hr)) {
         cout << "Клиент: интерфейс IZ успещно получен" << endl;
+        pIZ->Release(); // Завершить работу с pIZ
     } else {
         cout << "Клиент: Не удается получить доступ к интерфейсу IZ" << endl;
     };
@@ -50,15 +68,24 @@ int main () {
     if(SUCCEEDED(hr)) {
         cout<< "Клиент: указатель на IY успешно получен" << endl;
         pIYfromIX->Fy();
+        pIYfromIX->Release(); // Завершить работу с pIYfromIX
     } else {
         cout << "Клиент: невозможно получить указатель на IY через IX" << endl;
     }
 
-    if (pIX) pIX->Release();
-    if (pIY) pIY->Release();
-    if (pIUnknown) pIUnknown->Release();
+    cout << "\nКлиент: получить указатель на IUnknown через IY" << endl;
+    IUnknown *pIUnknownFromIY = NULL;
+    hr = pIY->QueryInterface(IID_IUnknown1, (void **) &pIUnknownFromIY);
+    if (SUCCEEDED(hr)) {
+        cout << "Равны два ли два указателя?" << endl;
+        if (pIUnknownFromIY == pIUnknown) {
+            cout << "ДА" << endl;
+        } else {
+            cout << "НЕТ" << endl;
+        }
+        pIUnknownFromIY->Release(); // Завершить работу с pIUnknownFromIY
+    }
 
-    
     cout << "\nКлиент: проверить, являются ли IX и IY одним и тем же объектом" << endl;
     if (SameComponents(pIX, pIY)) {
         cout << "Клиент: IX и IY указывают на один и тот же объект" << endl;
@@ -66,11 +93,8 @@ int main () {
         cout << "Клиент: IX и IY указывают на разные объекты" << endl;
     }
 
-    cout << "\nКлиент: вызвать функцию f(IX*)" << endl;
-    f(pIX); // Вызов функции f
-
-    cout << "\nКлиент: вызвать функцию f2(IX*)" << endl;
-    f2(pIX); // Вызов функции f2
+    // Удалить компонент
+    pIUnknown->Release();
 
     return 0;
 };
